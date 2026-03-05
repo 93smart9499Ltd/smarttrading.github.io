@@ -1,33 +1,30 @@
-// Demo credentials
-const validUser = {
-    username: "admin",
-    password: "1234"
-};
-
-function login() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    if (username === validUser.username && password === validUser.password) {
-        localStorage.setItem("loggedIn", "true");
-        localStorage.setItem("username", username);
-        window.location.href = "profile.html";
-    } else {
-        alert("Invalid login details");
-    }
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || [];
 }
 
-function checkLogin() {
-    if (localStorage.getItem("loggedIn") !== "true") {
-        window.location.href = "login.html";
-    } else {
-        document.getElementById("user").textContent =
-            localStorage.getItem("username");
-    }
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
 }
 
-function logout() {
-    localStorage.clear();
+function signup() {
+    const username = document.getElementById("su-username").value.trim();
+    const password = document.getElementById("su-password").value.trim();
+
+    if (!username || !password) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    const users = getUsers();
+
+    if (users.find(u => u.username === username)) {
+        alert("Username already exists");
+        return;
+    }
+
+    users.push({ username, password });
+    saveUsers(users);
+
+    alert("Account created successfully");
     window.location.href = "login.html";
 }
-
