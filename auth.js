@@ -46,4 +46,13 @@ function login() {
     } else {
         alert("Incorrect username or password");
     }
+function checkLogin() {
+    const user = localStorage.getItem("loggedInUser");
+
+    if (!user) {
+        window.location.href = "login.html"; // Not logged in
+    } else {
+        document.getElementById("user").textContent = user;
+    }
+}
 }
